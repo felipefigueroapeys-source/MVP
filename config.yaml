@@ -1,0 +1,400 @@
+app:
+  name: Spot Sector Scanner
+  version: 2.9.11
+visual:
+  default_scale: 5
+  use_emojis: true
+  use_colors_console: true
+market_mode:
+  btc_active_threshold_24h: 1.0
+  btc_defensive_threshold_24h: -1.5
+  eth_defensive_threshold_24h: -2.0
+sector_scoring:
+  points_24h_above_2: 2
+  points_24h_above_5: 3
+  points_7d_5_to_10: 1
+  points_7d_above_10: 2
+  points_7d_above_15: 3
+  points_volume_strong: 2
+  points_market_cap_above_500m: 1
+  points_market_cap_above_1b: 2
+  points_spot_presence: 2
+  penalty_sector_negative: -3
+  penalty_single_token_pump: -3
+token_filters:
+  min_market_cap_usd: 100000000
+  ideal_market_cap_usd: 500000000
+  min_volume_24h_usd: 10000000
+  ideal_volume_24h_usd: 50000000
+  accepted_30d_change: 5
+  desired_30d_change: 10
+  ideal_30d_change: 20
+  min_7d_change: 5
+  preferred_quotes:
+  - USDT
+  - USDC
+token_scoring:
+  points_sector_priority: 3
+  points_sector_interesting: 2
+  points_spot_pair_confirmed: 3
+  points_preferred_quote: 3
+  points_market_cap_above_500m: 2
+  points_market_cap_above_100m: 1
+  points_volume_above_50m: 2
+  points_volume_above_10m: 1
+  points_30d_above_20: 3
+  points_30d_above_10: 2
+  points_30d_above_5: 1
+  points_7d_above_5: 2
+  points_24h_between_2_and_15: 2
+  points_preferred_exchange: 2
+  penalty_vertical_extension: -2
+  penalty_weak_sector: -3
+  penalty_low_volume: -3
+categories:
+  a_plus_min_score: 18
+  a_min_score: 14
+  b_min_score: 10
+  c_min_score: 7
+exchanges:
+  preferred:
+  - Binance
+  - Bybit
+  - LBank
+  - OKX
+  - Gate
+  - KuCoin
+  - MEXC
+  - HTX
+scan:
+  max_sectors: 10
+  tokens_per_sector: 50
+  coingecko_pause_seconds: 1.5
+  require_spot_pair_for_category_b_or_higher: true
+  deduplicate_tokens: true
+coingecko:
+  retry_attempts: 3
+  retry_sleep_seconds: 3
+  excluded_category_ids:
+  - fiat-backed-stablecoin
+  - stablecoins
+  - tokenized-stock
+  - tokenized-private-credit
+  - ondo-tokenized-assets
+  - telegram_apps
+  - synthetic-dollar
+  excluded_category_keywords:
+  - stablecoin
+  - gambling
+  - prediction
+  - options
+  - tokenized stock
+  - tokenized private credit
+  - ondo tokenized assets
+  - telegram apps
+  - synthetic dollar
+  - synthetic-dollar
+  preferred_category_keywords:
+  - real world assets
+  - rwa
+  - artificial intelligence
+  - ai
+  - depin
+  - gaming
+  - layer
+  - solana
+  - bnb
+  - defi
+  min_sector_market_cap_usd: 500000000
+  min_sector_volume_24h_usd: 10000000
+coinmarketcap:
+  enabled: true
+  api_key_env: CMC_API_KEY
+  api_key: ''
+  max_categories: 30
+token_quality_gates:
+  require_spot_pair_for_b_or_higher: true
+  require_min_market_cap_for_b_or_higher: true
+  require_min_volume_for_b_or_higher: true
+  block_24h_below_for_b_or_higher: -10
+  cap_to_b_if_24h_above: 20
+  cap_to_a_if_24h_above: 15
+sector_policy:
+  note: 'MVP 1.6: se excluyen sectores ruidosos o no prioritarios para momentum spot
+    cripto real.'
+  excluded_by_decision:
+  - Tokenized Stock
+  - Tokenized Private Credit
+  - Ondo Tokenized Assets
+  - Telegram Apps
+sector_selection:
+  min_selected_sectors: 5
+  fallback_to_preferred_if_too_few: true
+  fallback_include_negative_preferred: true
+display:
+  show_discarded_in_console: false
+  max_tokens_console: 80
+  group_tokens_by_category: true
+  show_token_summary: true
+  show_operational_reason: true
+reference_assets:
+  separate_in_console: false
+  symbols:
+  - BTC
+  - ETH
+  - BNB
+  - SOL
+  - XRP
+  - ADA
+  - BCH
+  - LTC
+  - AVAX
+  - SUI
+  - HBAR
+  - APT
+  - ETC
+  - ALGO
+  - CRO
+  - PI
+  - XAUT
+  - PAXG
+operational_rules:
+  warn_30d_above: 150
+  cap_to_b_if_30d_above: 300
+  active_requires_7d_positive: true
+  top_operational_max_per_group: 8
+alert_rules:
+  watch_24h_above: 12
+  warn_24h_above: 15
+  extreme_24h_above: 20
+  warn_30d_above: 150
+  extreme_30d_above: 300
+  warn_7d_above: 50
+  strong_negative_24h_below: -10
+priority_tiers:
+  enabled: true
+  labels:
+    t1: T1 limpio
+    t2: T2 válido con alerta
+    t3: T3 vigilancia
+    t4: T4 riesgo alto
+trend_signals:
+  enabled: true
+  coingecko_trending: true
+  apply_to_score: false
+  points_coingecko_trending: 2
+  max_trending_tokens: 15
+sector_expansion:
+  enabled: true
+  recommended_sectors:
+  - DePIN
+  - Restaking
+  - Liquid Restaking
+  - Payments
+  - Settlement
+  - Data Availability
+  - Modular Blockchain
+  - Oracle
+  - Data
+  - Middleware
+  optional_sectors:
+  - Gaming
+  - SocialFi
+  - Telegram Apps
+  - Meme
+  - Memes
+  - Meme Coins
+  noisy_sectors:
+  - Meme
+  - Memes
+  - Meme Coins
+  - Telegram Apps
+  - SocialFi
+  sector_group_keywords:
+    core:
+    - Decentralized Finance
+    - DeFi
+    - Real World Assets
+    - RWA
+    - Layer 1
+    - Layer 2
+    - Artificial Intelligence
+    - AI
+    - Privacy
+    - Chain Abstraction
+    - Cross-chain
+    - Optimism
+    - Tokenized
+    - DePIN
+    - Restaking
+    - Liquid Restaking
+    - Payments
+    - Settlement
+    - Data Availability
+    - Modular
+    - Oracle
+    - Middleware
+    optional:
+    - Gaming
+    - GameFi
+    - SocialFi
+    - Telegram Apps
+    noisy:
+    - Meme
+    - Memes
+    - Meme Coins
+performance_tracker:
+  enabled: true
+  track_groups:
+    a_plus: true
+    a_t1: true
+    a_t2: true
+    b_trending: true
+    b_high_score: true
+    t4_control: true
+  b_high_score_min: 13
+  max_t4_control: 12
+  horizons_hours:
+  - 24
+  - 48
+  - 72
+  - 168
+  - 336
+  - 720
+  output_dir: outputs/performance
+  audit_mode: true
+  schema_version: audit_v2
+  outlier_abs_return_pct: 100
+  estimated_round_trip_cost_pct: 0.25
+  episode_cooldown_hours: 72
+  control_cooldown_hours: 24
+  max_tracking_age_hours: 744
+  min_observed_age_hours: 1
+  backup_on_schema_migration: true
+  trade_entry_buckets:
+  - prioridad_operativa
+  - candidato_activo
+  - rebote_tactico
+  - vigilar
+  observation_only_buckets:
+  - esperar_retroceso
+  - extendido
+  - exceso_30d
+  - no_perseguir
+  - descartar
+  - revisar
+  horizon_tolerance_hours:
+    '24': 8
+    '48': 8
+    '72': 8
+    '168': 12
+    '336': 18
+    '720': 24
+diagnostics:
+  enabled: true
+  output_dir: outputs/diagnostics
+  print_summary: true
+pair_validation:
+  reject_price_mismatch: true
+  max_price_deviation_pct: 50
+token_exclusions:
+  enabled: true
+  excluded_ids:
+  - tether
+  - usd-coin
+  - dai
+  - paypal-usd
+  - ripple-usd
+  - frax
+  - legacy-frax-dollar
+  - crvusd
+  - circle-usyc
+  - ondo-us-dollar-yield
+  - blackrock-usd-institutional-digital-liquidity-fund
+  - binance-staked-sol
+  - lido-staked-ether
+  - wrapped-steth
+  - stakewise-staked-eth
+  excluded_symbols:
+  - USDT
+  - USDC
+  - DAI
+  - PYUSD
+  - RLUSD
+  - FRAX
+  - CRVUSD
+  - USYC
+  - USDY
+  - BUIDL
+  - USTB
+  - JAAA
+  - JTRSY
+  - SYRUPUSDC
+  - BNSOL
+  - STETH
+  - WSTETH
+  - OSETH
+  - JLP
+  excluded_name_keywords:
+  - tokenized stock
+  - xstock
+  - staked ether
+  - wrapped steth
+  - staked sol
+  - liquidity provider token
+  - treasury fund
+  - t-bills
+  - money market fund
+  - institutional digital liquidity fund
+  - government securities fund
+
+
+# MVP 2.9.11 — OHLC intradía token + BTC
+# Objetivo: validar solo los mejores candidatos, sin hacer pesado el scan.
+ohlc_validator:
+  enabled: true
+  output_dir: outputs/ohlc
+  # Solo se descarga OHLC para los 10 mejores candidatos actuales y 10 mejores históricos pendientes.
+  current_top_n: 10
+  historical_top_n: 10
+  # Para trading intradía con proyección hasta 3 días.
+  horizon_hours:
+  - 24
+  - 72
+  interval_intraday: 15m
+  interval_swing: 1h
+  # Prioriza el exchange original; para nuestras señales actuales LBank suele ser la fuente principal.
+  # CoinGeckoRange queda como fallback preliminar para cruzar histórico cuando el exchange está bloqueado.
+  preferred_exchanges:
+  - LBank
+  - Binance
+  - Bybit
+  - CoinGeckoRange
+  quote_asset: USDT
+  btc_symbol: BTCUSDT
+  max_lookback_days: 45
+  request_timeout_seconds: 20
+  retry_attempts: 2
+  retry_sleep_seconds: 1.0
+  blocked_retry_attempts: 0
+  target_thresholds_pct:
+  - 2
+  - 5
+  - 10
+  - 15
+  - 20
+  estimated_round_trip_cost_pct: 0.25
+  # Filtro de selección para no descargar OHLC de descartados/observaciones.
+  eligible_operational_buckets:
+  - prioridad_operativa
+  - candidato_activo
+  - rebote_tactico
+  - vigilar
+  eligible_track_buckets:
+  - A+
+  - A_T1
+  - A
+  - B_HIGH_SCORE
+  - B_TREND
+  # Si el histórico viene de una versión vieja, se acepta solo para backfill preliminar.
+  allow_legacy_backfill: true
