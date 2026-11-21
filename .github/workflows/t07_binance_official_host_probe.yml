@@ -1,0 +1,41 @@
+name: T07 Tesoreria - Binance official host alternatives
+on:
+  push:
+    branches:
+      - 'test/tesoreria-public-api-20261121'
+    paths:
+      - '.github/workflows/t07_binance_official_host_probe.yml'
+permissions: {}
+jobs:
+  official-host-test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - name: Test documented Binance REST hosts without secrets
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import urllib.request
+          import urllib.error
+          hosts = ['api.binance.com', 'api-gcp.binance.com', 'api1.binance.com',
+                   'api2.binance.com', 'api3.binance.com', 'api4.binance.com']
+          for host in hosts:
+              url = f'https://{host}/api/v3/ping'
+              try:
+                  req = urllib.request.Request(url, headers={'Accept':'application/json', 'User-Agent':'T07PublicHostProbe/1.0'})
+                  with urllib.request.urlopen(req, timeout=5) as response:
+                      code = response.status
+                      body = response.read(4096)
+                  try:
+                      data = json.loads(body)
+                      ok = code == 200 and isinstance(data, dict) and 'code' not in data
+                  except Exception:
+                      ok = False
+                  print(f'{"PASS" if ok else "FAIL"} | HTTP {code} | {host}', flush=True)
+              except urllib.error.HTTPError as e:
+                  print(f'FAIL | HTTP {e.code} | {host}', flush=True)
+              except Exception as e:
+                  print(f'FAIL | {type(e).__name__} | {host}', flush=True)
+          print('Public endpoint connectivity only. Authenticated balances untested.')
+          PY
